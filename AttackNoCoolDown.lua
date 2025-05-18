@@ -128,7 +128,7 @@ if _G.FastAttack then
 
     local Settings = {
         AutoClick = true,
-        ClickDelay = 0
+        ClickDelay = 00000.1
     }
 
     local Module = {}
@@ -149,7 +149,7 @@ if _G.FastAttack then
         local RegisterHit = SafeWaitForChild(Net, "RE/RegisterHit")
 
         local function IsAlive(character)
-            return character and character:FindFirstChild("Humanoid") and character.Humanoid.Health > 0
+        return character and character:FindFirstChild("Humanoid") and character.Humanoid.Health > 0
         end
 
         local function ProcessEnemies(OthersEnemies, Folder)
@@ -176,20 +176,7 @@ if _G.FastAttack then
             local OthersEnemies = {}
             local Part1 = ProcessEnemies(OthersEnemies, Enemies)
             local Part2 = ProcessEnemies(OthersEnemies, Characters)
-
-            local character = Player.Character
-            if not character then return end
-            local equippedWeapon = character:FindFirstChildOfClass("Tool")
-
-            if equippedWeapon and equippedWeapon:FindFirstChild("LeftClickRemote") then
-                for _, enemyData in ipairs(OthersEnemies) do
-                    local enemy = enemyData[1]
-                    local direction = (enemy.HumanoidRootPart.Position - character:GetPivot().Position).Unit
-                    pcall(function()
-                        equippedWeapon.LeftClickRemote:FireServer(direction, 1)
-                    end)
-                end
-            elseif #OthersEnemies > 0 then
+            if #OthersEnemies > 0 then
                 self:Attack(Part1 or Part2, OthersEnemies)
             else
                 task.wait(0)
